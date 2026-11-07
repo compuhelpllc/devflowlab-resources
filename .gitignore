@@ -1,0 +1,9 @@
+# Variables de entorno y secretos locales
+.env
+.env.*
+!.env.example
+
+# Archivos del sistema y del editor
+.DS_Store
+.vscode/
+.idea/
