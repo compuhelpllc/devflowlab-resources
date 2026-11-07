@@ -1,0 +1,227 @@
+{
+    "name": "Integration Webhooks",
+    "flow": [
+        {
+            "id": 1,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 3034035,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0,
+                    "name": "DevFlow Incoming Leads"
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "87bcd3f97cfaad6a"
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "My gateway-webhook webhook"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "name",
+                        "type": "text"
+                    },
+                    {
+                        "name": "email",
+                        "type": "text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "postgres:InsertIntoTable",
+            "version": 2,
+            "parameters": {
+                "table": "\"public\".\"incoming_leads\"",
+                "account": 12194363,
+                "returnRows": true,
+                "isToManageDataInSharedTransaction": false
+            },
+            "mapper": {
+                "@id": "",
+                "@name": "",
+                "@email": "",
+                "@source": "",
+                "@status": "",
+                "@created_at": ""
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "65c94dcc04dee6eb"
+                },
+                "restore": {
+                    "parameters": {
+                        "table": {
+                            "label": "public.incoming_leads"
+                        },
+                        "account": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "postgres"
+                            },
+                            "label": "Alix's PostgreSQL connection (devflowadmin@devflow-postgres-db-2.postgres.database.azure.com:5432/postgres)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "account",
+                        "type": "account:postgres",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "isToManageDataInSharedTransaction",
+                        "type": "boolean",
+                        "label": "Manage data within the shared transaction",
+                        "required": true
+                    },
+                    {
+                        "name": "returnRows",
+                        "type": "boolean",
+                        "label": "Return Rows"
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "@id",
+                        "type": "integer",
+                        "label": "id"
+                    },
+                    {
+                        "name": "@name",
+                        "type": "text",
+                        "label": "name"
+                    },
+                    {
+                        "name": "@email",
+                        "type": "text",
+                        "label": "email"
+                    },
+                    {
+                        "name": "@source",
+                        "type": "text",
+                        "label": "source"
+                    },
+                    {
+                        "name": "@status",
+                        "type": "text",
+                        "label": "status"
+                    },
+                    {
+                        "name": "@created_at",
+                        "type": "text",
+                        "label": "created_at"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "rowsAffected",
+                        "type": "number",
+                        "label": "Affected rows"
+                    },
+                    {
+                        "name": "rows",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "integer"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text"
+                            },
+                            {
+                                "name": "email",
+                                "type": "text"
+                            },
+                            {
+                                "name": "source",
+                                "type": "text"
+                            },
+                            {
+                                "name": "status",
+                                "type": "text"
+                            },
+                            {
+                                "name": "created_at",
+                                "type": "text"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Rows"
+                    }
+                ],
+                "advanced": true
+            }
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}
